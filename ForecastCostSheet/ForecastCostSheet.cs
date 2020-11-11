@@ -44,6 +44,7 @@ namespace ForecastCostSheet
 
                 sqlServer = new ServiceCallDataElements.SQLServer();
 
+
                 bIsLoading = true;                      
                                 
                 if (HideWorkOrderButton)
