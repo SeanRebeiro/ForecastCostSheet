@@ -18,27 +18,32 @@ namespace ForecastCostSheet
         public string NetworkID;
         public string WorkOrderID;
         public bool IsFromWorkOrder;
-
+        public event EventHandler<DateTime> EndDateChangedEvent;
+        public event EventHandler<DateTime> StartDateChangedEvent;
         private string sCompanyID;
+
+        public ForecastCostSheets()
+        {
+            InitializeComponent();
+
+            //Testing only!
+           // ConnectionString = "Data Source=sqltopro1;Initial Catalog=ServiceCall;Integrated Security=True";
+           // NetworkID = "sean.rebeiro";
+
+            //WorkOrderID = "20180725-055";
+            //   WorkOrderID = "20190801-861";
+            //  WorkOrderID = "19000101-207";
+
+             //BindCostSheets();
+
+            //end testing code
+        }
 
         public ForecastCostSheets(string CompanyID)
         {
             InitializeComponent();
 
             sCompanyID = CompanyID;
-
-            //Testing only!
-            //ConnectionString = "Data Source=sqltopro1;Initial Catalog=ServiceCall;Integrated Security=True";
-            //NetworkID = "sean.rebeiro";
-
-            //WorkOrderID = "20180725-055";
-         //   WorkOrderID = "20190801-861";
-         //   WorkOrderID = "19000101-207";
-
-          //  BindCostSheets();
-
-            //end testing code
-
 
         }
         public void BindCostSheets()
@@ -106,6 +111,8 @@ namespace ForecastCostSheet
 
                 costSheet.BindCostSheet(CostSheetID, NetworkID, WorkOrderID, IsNew,0,iArchive);
 
+                costSheet.DateChangedEvent += ForecastDateChanged;
+
                 Content_Panel.Controls.Add(costSheet);
 
                 costSheet.Dock = DockStyle.Fill; 
@@ -113,6 +120,20 @@ namespace ForecastCostSheet
                 costSheet.BringToFront();
             }
             catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void ForecastDateChanged(object sender, DateChangedDelegateEventArgs e)
+        {
+            try
+            {
+                EndDateChangedEvent(sender, e.EndDate);
+                StartDateChangedEvent(sender, e.StartDate);
+
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

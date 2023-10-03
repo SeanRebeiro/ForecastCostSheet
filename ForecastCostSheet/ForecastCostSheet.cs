@@ -23,6 +23,7 @@ using DevExpress.Utils.MVVM.Services;
 
 namespace ForecastCostSheet
 {
+
     public partial class ForecastCostSheet: UserControl
     {
         private bool bIsLoading;
@@ -32,7 +33,13 @@ namespace ForecastCostSheet
         private string sNetworkID;
         private string sConnectionString;
         public ServiceCallAssembly.Core.AddInCom AddInCom;
+        public event EventHandler<DateChangedDelegateEventArgs> DateChangedEvent;
+        public delegate void DateChangedEventHandler(object sender, DateChangedDelegateEventArgs e);
 
+        public ForecastCostSheet()
+        {
+            InitializeComponent();
+        }
         public ForecastCostSheet(bool HideWorkOrderButton = false, bool IsPrevious = false, string CompanyID = "", string NetworkID = "")
         {                                   
             InitializeComponent();
@@ -533,12 +540,40 @@ namespace ForecastCostSheet
 
         private void Target_DateEdit_EditValueChanged(object sender, EventArgs e)
         {
-            EditMonthDetails();
+            DateChangedDelegateEventArgs dateChanged = new DateChangedDelegateEventArgs();
+
+            try
+            {
+                EditMonthDetails();
+
+                dateChanged.EndDate = Convert.ToDateTime(EndDate_DateEdit.EditValue);
+                dateChanged.StartDate = Convert.ToDateTime(Target_DateEdit.EditValue);
+
+                DateChangedEvent(this, dateChanged);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void EndDate_DateEdit_EditValueChanged(object sender, EventArgs e)
         {
-            EditMonthDetails();
+            DateChangedDelegateEventArgs dateChanged = new DateChangedDelegateEventArgs();
+
+            try
+            {
+                EditMonthDetails();
+
+                dateChanged.EndDate = Convert.ToDateTime(EndDate_DateEdit.EditValue);
+                dateChanged.StartDate = Convert.ToDateTime(Target_DateEdit.EditValue);
+
+                DateChangedEvent(this, dateChanged);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void advBandedGridView2_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)

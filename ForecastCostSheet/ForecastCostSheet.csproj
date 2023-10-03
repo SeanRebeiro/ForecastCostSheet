@@ -96,6 +96,7 @@
     <Compile Include="CostSheetReport.Designer.cs">
       <DependentUpon>CostSheetReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="DateChangedDelegateEventArgs.cs" />
     <Compile Include="DisciplinesSubReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -176,7 +177,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -83,8 +83,24 @@ namespace ForecastCostSheet
 				{
 
 					AddedOn = Convert.ToDateTime(dtTarget.Rows[0]["AddedOn"]);
-					TargetDate = Convert.ToDateTime(dtTarget.Rows[0]["TargetDate"]);
-					EndDate = Convert.ToDateTime(dtTarget.Rows[0]["EndDate"]);
+
+					if (dtTarget.Rows[0]["TargetDate"] == System.DBNull.Value)
+					{
+						TargetDate = DateTime.Now;
+					}
+					else
+					{
+						TargetDate = Convert.ToDateTime(dtTarget.Rows[0]["TargetDate"]);
+					}
+
+					if (dtTarget.Rows[0]["EndDate"] == System.DBNull.Value)
+					{
+						EndDate = DateTime.Now.AddDays(90);
+					}
+					else
+					{
+						EndDate = Convert.ToDateTime(dtTarget.Rows[0]["EndDate"]); 
+					}					
 
 					AddedBy = dtTarget.Rows[0]["AddedBy"].ToString();
 					QuoteID = dtTarget.Rows[0]["QuoteID"].ToString();
@@ -225,7 +241,7 @@ namespace ForecastCostSheet
 					{
 						sCommandText = "INSERT INTO Reporting.ForecastCostSheetDetail VALUES('" + detail.CostSheetDetailID + "','" + CostSheetID + "'," +
 										detail.DisciplineID + ",NULL,'" + detail.Description + "','"+detail.ReasonForCall +"'," + detail.UnitPrice + "," + detail.UnitCost + "," +
-										detail.Quantity + ")";
+										detail.Quantity + "," + 0 + ")";
 
 						SQLServer.ExecuteNonQuery(sCommandText);
 					}
@@ -234,7 +250,7 @@ namespace ForecastCostSheet
 					{
 						sCommandText = "INSERT INTO Reporting.ForecastCostSheetDetail VALUES('" + part.CostSheetDetailID + "','" + CostSheetID + "'," + 
 										part.DisciplineID +",'" + part.PartID + "','"+part.Description + "',NULL," + part.UnitPrice + "," + part.UnitCost + "," +
-										part.Quantity + ")";
+										part.Quantity + "," + part.TotalPrice + ")";
 
 						SQLServer.ExecuteNonQuery(sCommandText);
 					}
