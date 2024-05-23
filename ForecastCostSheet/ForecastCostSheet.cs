@@ -34,6 +34,7 @@ namespace ForecastCostSheet
         private string sConnectionString;
         public ServiceCallAssembly.Core.AddInCom AddInCom;
         public event EventHandler<DateChangedDelegateEventArgs> DateChangedEvent;
+
         public delegate void DateChangedEventHandler(object sender, DateChangedDelegateEventArgs e);
 
         public ForecastCostSheet()
